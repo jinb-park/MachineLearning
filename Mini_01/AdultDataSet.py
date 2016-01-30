@@ -70,7 +70,17 @@ class AdultDataSet(object):
 		return dataSet, classLabelVector
 
 
-	def PurifyDataSet(self, dataSet):
-		return normalizeDataSet(dataSet)
+	def PurifyDataSet(self, dataSet, quantitative):
+		dataSet = normalizeDataSet(dataSet)
 
+		if quantitative == False:
+			return dataSet
 
+		npDataSet = array(dataSet)
+
+		idx = 0
+		for data in dataSet:
+			npDataSet[idx] = data.round(1)
+			idx += 1
+
+		return npDataSet

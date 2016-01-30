@@ -28,12 +28,17 @@ def DoTrainingAndTest(dataFileName, testFileName, algoName):
 	classifier = GetClassifier(algoName)
 	dataSetBuilder = GetDataSetBuilder(dataFileName)
 
+	#
+	quantitative = False
+	if type(classifier).__name__ == 'DecisionTree':
+		quantitative = True
+
 	# 
 	print 'Training ....'
 	bt = time.time()
 
 	dataSet, labels = dataSetBuilder.ReadDataSet(dataFileName)
-	purifiedDataSet, minValue, maxValue, ranges = dataSetBuilder.PurifyDataSet(dataSet)
+	purifiedDataSet, minValue, maxValue, ranges = dataSetBuilder.PurifyDataSet(dataSet, quantitative)
 	trainedDataSet = classifier.TrainingDataSet(purifiedDataSet)
 
 	at = time.time()
@@ -53,27 +58,6 @@ def DoTrainingAndTest(dataFileName, testFileName, algoName):
 	print 'TotalTest / ErrorTest : %d / %d' % (len(testDataSet), errorCount)
 	print 'ErrorPecentage : %.4f' % ( (float(errorCount) / len(testDataSet)) )
 	print '=========================================================='
-
-	# test
-	# train again == Learning
-	#retrainCount = len(testDataSet) - (len(testDataSet) / 3)
-	#testCount = len(testDataSet) - retrainCount
-	#vstack((trainedDataSet, testDataSet[:retrainCount]))
-
-	#print 'Learning ....'
-	#trainedDataSet, minValue, maxValue, ranges = dataSetBuilder.PurifyDataSet(trainedDataSet)
-	#print 'End Learning ....'
-
-	#print 'Testing again ....'
-	#errorCount = classifier.TestDataSet(trainedDataSet, testDataSet[retrainCount:], labels, testLabels[retrainCount:], minValue, maxValue, ranges)
-	#print 'End Testing again ....'
-
-	#print '====================== Result after Learning ==========================='
-	#print 'TotalTest / ErrorTest : %d / %d' % (testCount, errorCount)
-	#print 'ErrorPecentage : %.4f' % ( float(errorCount) / testCount )
-	#print '==========================================================================='
-
-	return
 
 
 if __name__ == '__main__' :

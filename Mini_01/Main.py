@@ -2,6 +2,7 @@ import operator
 import sys
 import time
 from KNN import KNN
+from DecisionTree import DecisionTree
 from AdultDataSet import AdultDataSet
 from numpy import *
 
@@ -14,32 +15,27 @@ def GetClassifier(algoName):
 		print 'Not Support Algorithm'
 		exit()
 
-def GetDataSetBuilder(dataFileName):
+def GetDataSetBuilder(dataFileName, classifier):
 	if dataFileName.find('adult') > -1:
-		return AdultDataSet()
+		return AdultDataSet(classifier)
 	else:
-		return AdultDataSet()
+		return AdultDataSet(classifier)
 
 def DoTrainingAndTest(dataFileName, testFileName, algoName):
 	print 'DataFileName : %s, TestFileName : %s, AlgorithmName : %s' % (dataFileName, testFileName, algoName)
 	errorCount = 0
 
-	# 
-	classifier = GetClassifier(algoName)
-	dataSetBuilder = GetDataSetBuilder(dataFileName)
-
 	#
-	quantitative = False
-	if type(classifier).__name__ == 'DecisionTree':
-		quantitative = True
+	classifier = GetClassifier(algoName)
+	dataSetBuilder = GetDataSetBuilder(dataFileName, classifier)
 
 	# 
 	print 'Training ....'
 	bt = time.time()
 
-	dataSet, labels = dataSetBuilder.ReadDataSet(dataFileName)
-	purifiedDataSet, minValue, maxValue, ranges = dataSetBuilder.PurifyDataSet(dataSet, quantitative)
-	trainedDataSet = classifier.TrainingDataSet(purifiedDataSet)
+	dataSet, labels, attributes = dataSetBuilder.ReadDataSet(dataFileName)
+	purifiedDataSet = dataSetBuilder.PurifyDataSet(dataSet)
+	trainedDataSet = classifier.TrainingDataSet(purifiedDataSet, labels, attributes)
 
 	at = time.time()
 	print 'End Training : %d s' % (at - bt)
@@ -48,8 +44,8 @@ def DoTrainingAndTest(dataFileName, testFileName, algoName):
 	print 'Testing ....'
 	bt = time.time()
 
-	testDataSet, testLabels = dataSetBuilder.ReadDataSet(testFileName)
-	errorCount = classifier.TestDataSet(trainedDataSet, testDataSet, labels, testLabels, minValue, maxValue, ranges)
+	testDataSet, testLabels, attributes = dataSetBuilder.ReadDataSet(testFileName)
+	errorCount = classifier.TestDataSet(dataSet, trainedDataSet, testDataSet, labels, testLabels, attributes)
 
 	at = time.time()
 	print 'End Testing : %d s' % (at - bt)

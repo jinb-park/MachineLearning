@@ -34,12 +34,16 @@ def normalizeDataSet(dataSet):
 	dataSet = dataSet - tile(minValue, (len(dataSet), 1))
 	dataSet = dataSet / tile(ranges, (len(dataSet), 1))
 
-	return dataSet, minValue, maxValue, ranges
+	return dataSet
 
 
 class AdultDataSet(object):
 	numOfLines = 0
 	numOfAttributes = 0
+	classifier = ()
+
+	def __init__(self, classifier):
+		self.classifier = classifier
 
 	def ReadDataSet(self, fname):
 		self.numOfLines = GetNumOfLines(fname)
@@ -47,10 +51,19 @@ class AdultDataSet(object):
 
 		fr = open(fname)
 		dataSet = []
+		attributes = []
 		classLabelVector = []
 		index = 0
+		isFirstLine = True
 
 		for line in fr.readlines():
+			if isFirstLine == True:
+				line = line.strip()
+				listFromLine = line.split(' ')
+				attributes = listFromLine[0:]
+				isFirstLine = False
+				continue
+
 			line = line.strip()
 			if line.find('?') > -1:
 				continue
@@ -63,24 +76,21 @@ class AdultDataSet(object):
 		for data in dataSet:
 			idx = 0
 			for attr in data:
-				if IsNumber(attr) == True:	# Convert NumberString to Number
+				if IsNumber(attr) == True:	
 					data[idx] = float(attr)	
 				idx += 1
 
-		return dataSet, classLabelVector
+		return dataSet, classLabelVector, attributes
 
 
-	def PurifyDataSet(self, dataSet, quantitative):
+	def PurifyDataSet(self, dataSet):
 		dataSet = normalizeDataSet(dataSet)
-
-		if quantitative == False:
-			return dataSet
-
 		npDataSet = array(dataSet)
 
-		idx = 0
-		for data in dataSet:
-			npDataSet[idx] = data.round(1)
-			idx += 1
+		if type(self.classifier).__name__ == 'DecisionTree':
+			idx = 0
+			for data in dataSet:
+				npDataSet[idx] = data.round(1)
+				idx += 1
 
 		return npDataSet

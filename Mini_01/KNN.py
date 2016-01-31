@@ -1,6 +1,14 @@
 import operator
 from numpy import *
 
+def GetMinMaxRanges(dataSet):
+	numpyArr = array(dataSet)
+	minValue = numpyArr.min(axis=0)
+	maxValue = numpyArr.max(axis=0)
+	ranges = maxValue - minValue
+
+	return minValue, maxValue, ranges
+
 def classifyKNN(inX, dataSet, labels, k):
     dataSetSize = dataSet.shape[0]
     diffMat = tile(inX, (dataSetSize,1)) - dataSet
@@ -18,30 +26,32 @@ def classifyKNN(inX, dataSet, labels, k):
     return sortedClassCount[0][0]
 
 class KNN(object):
-	def TrainingDataSet(self, purifiedDataSet):
+	def TrainingDataSet(self, purifiedDataSet, labels, attributes):
 		return purifiedDataSet
 
-	def TestDataSet(self, trainedDataSet, testDataSet, trainedLabels, testLabels, minValue, maxValue, ranges):
+	def TestDataSet(self, origDataSet, trainedDataSet, testDataSet, trainedLabels, testLabels, attributes):
 		idx = 0
 		errorCount = 0
 
 		totalTest = len(testDataSet)
 		currentTest = 0
 		targetPercentage = 0.1
+		minValue, maxValue, ranges = GetMinMaxRanges(origDataSet)
 
 		for data in testDataSet:
 			# normalize
-			for idx in range(len(data)):
-				data[idx] = (data[idx] - minValue[idx]) / (ranges[idx])
+			for i in range(len(data)):
+				data[i] = (data[i] - minValue[i]) / (ranges[i])
 
 			value = classifyKNN(data, trainedDataSet, trainedLabels, 3)
 
-			if testLabels[idx] != value:
+			if float(testLabels[idx]) != float(value):
 				errorCount += 1
 
 			currentTest += 1
 			if (currentTest/float(totalTest)) >= targetPercentage:
 				print '--- %d percent complete' % (targetPercentage * 100)
 				targetPercentage += 0.1
+			idx += 1
 
 		return errorCount

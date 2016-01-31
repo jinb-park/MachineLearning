@@ -1,3 +1,4 @@
+age workclass fnlwgt education education-num marital-status occupation relationship race sex capital-gain capital-loss hours-per-week native-country
 39 5 77516 13 13 2 8 3 0 1 2174 0 40 0 0
 50 1 83311 13 13 0 4 2 0 1 0 0 13 0 0
 38 0 215646 8 9 1 6 3 0 1 0 0 40 0 0

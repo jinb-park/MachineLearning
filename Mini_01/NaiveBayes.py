@@ -34,7 +34,7 @@ class NaiveBayes(object):
 		richCount = 0
 
 		idx = 0
-		for data in purifiedDataSet[0:10]:
+		for data in purifiedDataSet:
 			vec = ConvertDataToVec(data)
 
 			if int(labels[idx]) == 0:

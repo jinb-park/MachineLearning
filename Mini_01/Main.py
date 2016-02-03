@@ -3,6 +3,7 @@ import sys
 import time
 from KNN import KNN
 from DecisionTree import DecisionTree
+from NaiveBayes import NaiveBayes
 from AdultDataSet import AdultDataSet
 from numpy import *
 
@@ -11,6 +12,8 @@ def GetClassifier(algoName):
 		return KNN()
 	elif algoName == 'DecisionTree':
 		return DecisionTree()
+	elif algoName == 'NaiveBayes':
+		return NaiveBayes()
 	else:
 		print 'Not Support Algorithm'
 		exit()

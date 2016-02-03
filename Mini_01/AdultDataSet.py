@@ -87,7 +87,7 @@ class AdultDataSet(object):
 		dataSet = normalizeDataSet(dataSet)
 		npDataSet = array(dataSet)
 
-		if type(self.classifier).__name__ == 'DecisionTree':
+		if type(self.classifier).__name__ != 'KNN':
 			idx = 0
 			for data in dataSet:
 				npDataSet[idx] = data.round(1)

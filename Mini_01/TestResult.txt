@@ -1,0 +1,7 @@
+
+	     Algorithm               Error
+	-----------------------      --------
+	1  KNN                        19.14
+	2  DecisionTree              26.58
+	3  NaiveBayes                24.65
+	4  LogisticRegression       19.07

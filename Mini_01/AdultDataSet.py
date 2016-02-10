@@ -87,7 +87,8 @@ class AdultDataSet(object):
 		dataSet = normalizeDataSet(dataSet)
 		npDataSet = array(dataSet)
 
-		if type(self.classifier).__name__ != 'KNN':
+		if type(self.classifier).__name__ != 'KNN'\
+							or type(self.classifier).__name__ != 'LogisticRegression':
 			idx = 0
 			for data in dataSet:
 				npDataSet[idx] = data.round(1)

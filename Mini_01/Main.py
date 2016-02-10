@@ -4,6 +4,7 @@ import time
 from KNN import KNN
 from DecisionTree import DecisionTree
 from NaiveBayes import NaiveBayes
+from LogisticRegression import LogisticRegression
 from AdultDataSet import AdultDataSet
 from numpy import *
 
@@ -14,6 +15,8 @@ def GetClassifier(algoName):
 		return DecisionTree()
 	elif algoName == 'NaiveBayes':
 		return NaiveBayes()
+	elif algoName == 'LogisticRegression':
+		return LogisticRegression()
 	else:
 		print 'Not Support Algorithm'
 		exit()

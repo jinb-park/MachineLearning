@@ -47,8 +47,8 @@ class NaiveBayes(object):
 				richCount += 1
 			idx += 1
 
-		notRichVect = notRichNum / notRichDenom
-		richVect = richNum / richDenom
+		notRichVect = log(notRichNum / notRichDenom)
+		richVect = log(richNum / richDenom)
 		notRichPercent = float(notRichCount) / (notRichCount + richCount)
 
 		trainedDataSet = []
@@ -77,8 +77,8 @@ class NaiveBayes(object):
 
 			vec = ConvertDataToVec(data)
 
-			pNotRich = sum(vec * notRichVect) + notRichPercent
-			pRich = sum(vec * richVect) + (1.0 - notRichPercent)
+			pNotRich = sum(vec * notRichVect) + log(notRichPercent)
+			pRich = sum(vec * richVect) + log(1.0 - notRichPercent)
 
 			if pNotRich > pRich:
 				if int(testLabels[idx]) != 0:

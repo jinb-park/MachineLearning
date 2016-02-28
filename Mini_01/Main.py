@@ -6,6 +6,7 @@ from DecisionTree import DecisionTree
 from NaiveBayes import NaiveBayes
 from LogisticRegression import LogisticRegression
 from SVM import SVM
+from Adaboost import Adaboost
 from AdultDataSet import AdultDataSet
 from numpy import *
 
@@ -20,6 +21,8 @@ def GetClassifier(algoName):
 		return LogisticRegression()
 	elif algoName == 'SVM':
 		return SVM()
+	elif algoName == 'Adaboost':
+		return Adaboost()
 	else:
 		print 'Not Support Algorithm'
 		exit()

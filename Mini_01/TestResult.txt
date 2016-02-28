@@ -4,4 +4,6 @@
 	1  KNN                        19.14
 	2  DecisionTree              26.58
 	3  NaiveBayes                24.65
-	4  LogisticRegression       19.07
+	4  LogisticRegression        19.07
+	5  SVM						  ~~
+	6  Adaboost(DecisionTree)    30.31
